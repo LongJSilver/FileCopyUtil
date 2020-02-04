@@ -54,12 +54,12 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\DotBox\DotBox.Cli\DotBox.Cli.csproj">
+    <ProjectReference Include="..\DotBox\DotBox.Cli\DotBox.Cli.csproj">
       <Project>{227a7f03-0ae6-43f6-b62c-4fb6c8765c45}</Project>
       <Name>DotBox.Cli</Name>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </ProjectReference>
-    <ProjectReference Include="..\..\DotBox\DotBox.Core\DotBox.Core.csproj">
+    <ProjectReference Include="..\DotBox\DotBox.Core\DotBox.Core.csproj">
       <Project>{1A832462-713B-4E7B-B392-1C2BABE21D6F}</Project>
       <Name>DotBox.Core</Name>
       <EmbedInteropTypes>False</EmbedInteropTypes>
