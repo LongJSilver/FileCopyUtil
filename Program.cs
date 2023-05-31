@@ -13,7 +13,7 @@ namespace FileCopyUtil
     class Program
     {
 
-        /* Research   Phase
+        /* Research   Phase 2
 		 * --
 		 * Select 1 entry with Absolute Path                                     > <arg> 
 		 * Select 1 entry from base directory using Name                         > <arg>
