@@ -1,12 +1,15 @@
-﻿using DotBox.Cli;
-using DotBox.Threading;
+﻿using DotBox.Data;
 using DotBox.Utils;
+using Linea.Args;
+using Linea.Utils;
+using Some.Restraint;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading;
 
 namespace FileCopyUtil
 {
@@ -37,10 +40,10 @@ namespace FileCopyUtil
         static void Main(string[] args)
         {
             ArgumentDescriptorCollection expected = new ArgumentDescriptorCollection();
-            expected.AddSimpleValue(("argument", "arg", "absolute path, or relative path, or name, or regex"), ArgumentValueType.String, false);
-            expected.AddNamedValue(("BaseDirectory", "base", "dir to use as starting point. Defaults to environment current dir"), ArgumentValueType.FileSystemPath, true);
-            expected.AddSimpleValue("SourceRoot", ArgumentValueType.String, true);
-            expected.AddSimpleValue("DestinationRoot", ArgumentValueType.String, false);
+            expected.AddSimpleValue(("argument", "arg", "absolute path, or relative path, or name, or regex"), ArgumentValueType.String, ArgumentOptions.Mandatory);
+            expected.AddNamedValue(("BaseDirectory", "base", "dir to use as starting point. Defaults to environment current dir"), ArgumentValueType.FileSystemPath);
+            expected.AddSimpleValue("SourceRoot", ArgumentValueType.String);
+            expected.AddSimpleValue("DestinationRoot", ArgumentValueType.String, ArgumentOptions.Mandatory);
             expected.AddFlag(("NameRegex", "x", "nx", "argument is name-regex; each entry's name should be checked against it"));
             expected.AddFlag(("PathRegex", "px", "argument is path-regex; each entry's path should be checked against it"));
             expected.AddFlag(("rs", "RecursiveSelection", "r", "search recursively from base"));
@@ -83,7 +86,7 @@ namespace FileCopyUtil
                 else
                 {
 
-                    IEnumerable<string> explanations = p.GetArgumentsExplanation().RowsToFixedLengthStrings(separator: " | ", maxColumnLen: 24);
+                    IEnumerable<string> explanations = p.GetArgumentExplanations().RowsToFixedLengthStrings(separator: " | ", maxColumnLen: 24);
                     int explLen = explanations.First().Length;
                     Console.Error.WriteLine(new string('*', explLen));
                     foreach (string item in explanations)
@@ -183,7 +186,8 @@ namespace FileCopyUtil
                 {
                     string ToMatch = IsPathRegex ? entry : Path.GetFileName(entry);
                     return userRegex.IsMatch(ToMatch);
-                };
+                }
+                ;
 
                 if (isRecursiveSelection)
                 {
@@ -270,7 +274,7 @@ namespace FileCopyUtil
                         string s = toCopy.First();
                         int retries = 0;
                         Console.Error.Write($"Copying : {s} ...");
-                        while (!Box.ShouldStop)
+                        while (true)
                         {
                             try
                             {
@@ -289,12 +293,14 @@ namespace FileCopyUtil
                         toCopy.Remove(s);
 
                     }
-
                 }
             }
 
             Regex r = new Regex(fileRegex);
-            Delayer d = new Delayer("DelayedCopy", 500, ActualCopy);
+            Defer d = Defer.UsingTask()
+                     .ForAtLeast(500).ToExecute(ActualCopy)
+                     .Named("DeferredCopy").Build();
+
             void BufferAction(string s)
             {
                 if (r.IsMatch(s))
@@ -303,7 +309,7 @@ namespace FileCopyUtil
                     {
 
                         toCopy.Add(s);
-                        d.Delay();
+                        d.Trigger();
                     }
                 }
             }
@@ -313,7 +319,14 @@ namespace FileCopyUtil
             Console.Error.WriteLine("to ");
             Console.Error.WriteLine($"       {destination}");
 
-            Box.WaitUntilShutDown();
+            object dummyMonitor = new object();
+            while (true)
+            {
+                lock(dummyMonitor)
+                {
+                    Monitor.Wait(dummyMonitor, 1000);
+                }
+            }
         }
         public static void CreateFileWatcher(string path, Action<string> deleg)
         {
