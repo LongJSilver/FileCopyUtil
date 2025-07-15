@@ -1,0 +1,101 @@
+<Arguments>
+  <Simple Name="argument" Mandatory="true" >
+    <Alias>arg</Alias>
+    <Description>depending on the context could be an absolute path, or a relative path, or a file name, or a regex.</Description>
+  </Simple>
+  <Named Name="BaseDirectory" ValueType="FileSystemPath">
+    <Alias>base</Alias>
+    <Description>directory to use as starting point. Defaults to current directory</Description>
+  </Named>
+
+  <Simple Name="SourceRoot" ValueType="String" Mandatory="false" >
+    <Alias>srcRoot</Alias>
+    <Description>Optional value that defines what portion of the base folder should be treated as the source root; the portion of the tree below this root will be replicated as-is within the DestinationRoot; defaults to base dir</Description>
+  </Simple>
+
+  <Simple Name="DestinationRoot" ValueType="String" Mandatory="true" >
+    <Alias>dest</Alias>
+    <Alias>destination</Alias>
+  </Simple>
+
+  <Flag Name="NameRegex">
+    <Alias>x</Alias>
+    <Alias>nx</Alias>
+    <Description>argument is name-regex; each entry's name should be checked against it</Description>
+    <Description>Specify this flag to treat the argument as a name-regex: only the NAME of each will be checked against it, not the whole path</Description>
+  </Flag>
+
+  <Flag Name="PathRegex">
+    <Alias>px</Alias>
+    <Description>Specify this flag to treat the argument as a path-regex: the whole path of each entry will be checked against it</Description>
+  </Flag>
+
+  <Flag Name="r">
+    <Alias>recursive</Alias>
+    <Description>search AND copy recursively from base directory</Description>
+  </Flag>
+  <Flag Name="rs">
+    <Alias>RecursiveSelection</Alias>
+    <Description>search recursively from base directory</Description>
+  </Flag>
+  <Flag Name="rc">
+    <Alias>RecursiveCopy</Alias>
+    <Description>copy recursively from selected dirs</Description>
+  </Flag>
+  <Flag Name="file">
+    <Alias>SelectFileOnly</Alias>
+    <Alias>FileOnly</Alias>
+    <Alias>File</Alias>
+    <Alias>f</Alias>
+    <Description>only select files</Description>
+  </Flag>
+  <Flag Name="dir">
+    <Alias>SelectDirectoryOnly</Alias>
+    <Alias>DirectoryOnly</Alias>
+    <Alias>DirOnly</Alias>
+    <Alias>Dir</Alias>
+    <Alias>d</Alias>
+    <Description>only select dirs</Description>
+  </Flag>
+  <Flag Name="all">
+    <Alias>df</Alias>
+    <Alias>fd</Alias>
+    <Alias>SelectAll</Alias>
+    <Description>select files and directoriess (default)</Description>
+  </Flag>
+  <Flag Name="flatten">
+    <Alias>flat</Alias>
+    <Alias>fl</Alias>
+    <Description>Flatten the hierarchy</Description>
+  </Flag>
+  <Flag Name="e">
+    <Alias>ex</Alias>
+    <Alias>explain</Alias>
+    <Description>Print a description of the arguments received, for debugging purposes</Description>
+  </Flag>
+  <Flag Name="debug">
+    <Description>Attempt to launch the default debugger before running</Description>
+  </Flag>
+  <Flag Name="watch">
+    <Alias>w</Alias>
+    <Description>Create a watch for modified files in the 'base' directory and copy them in the target ('argument') directory. The process will keep on running until killed externally or by using the Ctrl+C shortcut.</Description>
+  </Flag>
+
+  <Flag Name="v">
+    <Alias>verbose</Alias>
+    <Description>Prints a line to report each successfully copied file</Description>
+  </Flag>
+  <Flag Name="help">
+    <Alias>h</Alias>
+    <Description>Print a short guide. if this argument is specified, all other arguments (beside -debug and -e) will be ignored and the program will terminate</Description>
+  </Flag>
+  <Constraint Type="OneOrLess">
+    <Argument>f</Argument>
+    <Argument>d</Argument>
+    <Argument>fd</Argument>
+  </Constraint>
+  <Constraint Type="OneOrLess">
+    <Argument>x</Argument>
+    <Argument>px</Argument>
+  </Constraint>
+</Arguments>

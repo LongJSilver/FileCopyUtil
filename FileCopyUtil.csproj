@@ -37,10 +37,12 @@
     <Reference Include="Aspetta, Version=0.9.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\Aspetta.0.9.0-Alpha\lib\netstandard2.0\Aspetta.dll</HintPath>
     </Reference>
+    <Reference Include="MapXML, Version=0.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\MapXML.0.2.0-Beta\lib\netstandard2.0\MapXML.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
@@ -55,15 +57,16 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DotBox\DotBox.Core\DotBox.Core.csproj">
-      <Project>{1A832462-713B-4E7B-B392-1C2BABE21D6F}</Project>
-      <Name>DotBox.Core</Name>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
-    </ProjectReference>
     <ProjectReference Include="..\Linea\Linea\Linea.csproj">
       <Project>{f799a742-3feb-8a3f-1f87-30796b08c18c}</Project>
       <Name>Linea</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Arguments.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="help.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

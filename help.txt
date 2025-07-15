@@ -1,0 +1,35 @@
+﻿This tool is a command-line file and directory copy utility with advanced selection and filtering features.
+
+It can operate for a single execution or in a "watch" mode that continuously monitors a directory for changes and copies files as they are created or modified.
+Regardless of the operation mode, the software offers granular configuration options for both the selection phase and the copying phase.
+
+
+1. Entry Selection
+•	Supports selection of files and directories. use -dir to select only select directories, -file to only select files; if you specify none of the two flags, both files and directories will be selected; specifying -all has the same effect.
+•	The tool filters by using the content of the first argument, which can be a regex pattern, a direct path, or a name.
+	•	To interpret the argument as a regular expression for the whole path, specify the -px flag
+	•	To interpret the argument as a regular expression only for the file name, specify the -nx flag
+	•	To interpret the argument as a plain name, don't specify any additional flag
+•	Supports recursive and non-recursive selection. When recursive selection is enabled with the -r flag, the tool will search through all subdirectories and apply the criteria described above; otherwise only the direct descendants of the base folder will be examined.
+ 
+2. Copying Logic
+•	Supports recursive copy by use of the -rc flag. When enabled, any folder selected in the previous phase will be copied including all its contents. When disabled any folder selected in the previous phase will be copied, but only the folder itself, not its contents.
+	Note that this behavior is independent of the selection phase, meaning that you could have a recursive selection (-rs) and a non-recursive copy (-rc) or vice versa. See below for details.
+•	By default the software keeps the original directory structure when copying files and directories, use -flatten to pour all selected files into the destination root, without preserving the original structure.
+	Note: The -flatten flag applies only to the entries directly selected in the previous phase; if a directory is selected but not its contents, if the -rc flag is set the content will still be copied along with the directory, preserving all the substructure under the folder. 
+•	You can specify a SourceRoot different than the base folder, provided that it is contained within the base folder; in this case the tool upon copy will replicate the substructure only up to the SourceRoot.
+	Example: FCU ".+\.xml" -BaseDirectory="myfolder/a/b/c/d" -SourceRoot="myfolder/a/b" -DestinationRoot="C:\targetFolder" -nx
+			 This would copy all .xml files in "myfolder/a/b/c/d" that match the regex, and will replicate the substructure only below "myfolder/a/b", so the files will be copied to "C:\targetFolder\c\d\".
+
+3. File Watching
+•	If watch is enabled, sets up a FileSystemWatcher to monitor changes and copy matching files to the destination as they change.
+	Selection and Copy criteria are the same as in the non-watch mode.
+	The process will continue running until manually stopped, allowing for real-time updates.
+
+Example Usage:
+•	Copy all .txt files recursively:
+FileCopyUtil.exe ".*\.txt" -nx -rs -f -destinationRoot="C:\targetFolder"
+•	Copy a specific directory:
+FileCopyUtil.exe MyFolder -d -destinationRoot="C:\targetFolder"
+•	Watch for new .log files and copy them:
+FileCopyUtil.exe ".*\.log$" -nx -watch -rs -f -destinationRoot="C:\targetFolder"
