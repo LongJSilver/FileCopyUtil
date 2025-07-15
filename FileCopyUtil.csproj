@@ -37,6 +37,9 @@
     <Reference Include="Aspetta, Version=0.9.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\Aspetta.0.9.0-Alpha\lib\netstandard2.0\Aspetta.dll</HintPath>
     </Reference>
+    <Reference Include="Linea, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\Linea.0.1.0-alpha\lib\netstandard2.0\Linea.dll</HintPath>
+    </Reference>
     <Reference Include="MapXML, Version=0.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\MapXML.0.2.0-Beta\lib\netstandard2.0\MapXML.dll</HintPath>
     </Reference>
@@ -55,12 +58,6 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Linea\Linea\Linea.csproj">
-      <Project>{f799a742-3feb-8a3f-1f87-30796b08c18c}</Project>
-      <Name>Linea</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Arguments.xml" />
