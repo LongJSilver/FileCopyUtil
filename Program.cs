@@ -190,7 +190,7 @@ namespace FileCopyUtil
             }
 
 
-            if (p.HasFlag("x"))
+            if (p.HasFlag("nx"))
             {
                 userRegex = new Regex(UserArg);
                 IsPathRegex = false;
@@ -206,7 +206,7 @@ namespace FileCopyUtil
                 UserArg = UserArg.TrimEnd(Path.DirectorySeparatorChar);
             }
 
-            List<string> allFoundEntries = new List<string>();
+            HashSet<string> allFoundEntries = new HashSet<string>();
             bool EntryMatches(string entry)
             {
                 if (userRegex != null)
@@ -226,8 +226,13 @@ namespace FileCopyUtil
                 {
                     // Select n entries recursively from base directory using Name-Regex     > <arg> -x -rs
                     // Select n entries recursively from base directory using Path-Regex     > <arg> -px -rs
-                    NavigateFileSystem(baseDir, shouldExploreThisDirectory: _ => true,
-                            shouldConsiderThisDirectory: dir => selectDirs && EntryMatches(dir),
+                    NavigateFileSystem(baseDir, 
+                        shouldExploreThisDirectory: dir  => 
+                        !isRecursiveCopy //if the copy process is not recursive, we should check if the contents of the folder should be included separately
+                     || !allFoundEntries.Contains(dir)/* if the copy process IS recursive and the folder is already in the copy list, 
+                                                       * all content will already be included and we don't need further exploration */,                        
+                        
+                        shouldConsiderThisDirectory: dir => selectDirs && EntryMatches(dir),
                             shouldConsiderThisFile: file => selectFiles && EntryMatches(file),
                             OnFileFound: entry => allFoundEntries.Add(entry),
                             OnDirectoryFound: entry => allFoundEntries.Add(entry)
