@@ -15,28 +15,6 @@ namespace FileCopyUtil
 {
     public static class Program
     {
-
-        /* Research   Phase 2
-		 * --
-		 * Select 1 entry with Absolute Path                                     > <arg> 
-		 * Select 1 entry from base directory using Name                         > <arg>
-		 * Select n entries from current directory using Name-Regex              > <arg> -x
-		 * Select n entries recursively from base directory using Name-Regex     > <arg> -x -rs
-		 * Select n entries recursively from base directory using Path-Regex     > <arg> -px -rs
-		 * * * * * * * * * * */
-
-        /*
-		 * arg: absolute path, or relative path, or name, or regex 
-		 * base: dir to use as starting point. Defaults to environment current dir
-		 *
-		 * -x|nx:                 argument is name-regex; each entry's name should be checked against it
-		 * -px:                   argument is path-regex; each entry's path should be checked against it
-		 * -rs|r|RecursiveSearch: search recursively from base
-		 * -rc|RecursiveCopy:     copy recursively from selected dirs
-		 * -f:                    only select files
-		 * -d:                    only select dirs
-		 * -fd|df :               select files and dirs (default)
-		 * * * * * * * * * */
         static void Main(string[] args)
         {
             ArgumentDescriptorCollection expected = new ArgumentDescriptorCollection();
