@@ -3,9 +3,7 @@ using Linea.Utils;
 using Some.Restraint;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Diagnostics;
-using System.Diagnostics.SymbolStore;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -355,7 +353,7 @@ namespace FileCopyUtil
                                 if (verbose) Console.Error.WriteLine($"Done [{DateTime.Now:H:mm:ss}]");
                                 break;
                             }
-                            catch (Exception e)
+                            catch (Exception)
                             {
                                 retries++;
                                 System.Threading.Thread.Sleep(1000);

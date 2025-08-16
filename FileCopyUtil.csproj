@@ -13,17 +13,32 @@
     <PackAsTool>true</PackAsTool>
     <ToolCommandName>FCU</ToolCommandName>
     <PackageOutputPath>./nupkg</PackageOutputPath>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <Authors>Marco Perna</Authors>
+    <Description>A command-line utility for advanced file copy operations with support for batch processing and flexible options.</Description>
+    <IncludeSource>true</IncludeSource>
+    <IncludeSymbols>true</IncludeSymbols>
+    <Deterministic>true</Deterministic>
+    <RepositoryUrl>https://github.com/LongJSilver/FileCopyUtil</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/LongJSilver/FileCopyUtil</PackageProjectUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <!-- =============================== -->
 
   </PropertyGroup>
   <ItemGroup>
     <EmbeddedResource Include="Arguments.xml" />
     <PackageReference Include="Aspetta" Version="0.9.0-Alpha" />
-    <PackageReference Include="Linea" Version="0.1.0-alpha" />
+    <PackageReference Include="Linea" Version="0.2.5-alpha" />
     <PackageReference Include="MapXML" Version="0.2.0-Beta" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="help.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 </Project>
